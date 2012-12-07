@@ -17,43 +17,41 @@
       .portlet-content { padding: 0.4em; }
       .ui-sortable-placeholder { border: 1px dotted black; visibility: visible !important; height: 50px !important; }
       .ui-sortable-placeholder * { visibility: hidden; }
+
+      #commands { padding: 10px; border-style: dotted; border-radius: 25px; }
     </style>
   </head>
 
   <body>
 
-    <div class="column command-options">
+    <div id="command-options" class="column">
       <div class="portlet">
-        <div class="portlet-header"><span class="command-name">Boot up</span></div>
+        <div class="portlet-header">Boot up</div>
         <div class="portlet-content" contenteditable="true">Turn on, and get ready to perform actions.</div>
       </div>
       <div class="portlet">
-        <div class="portlet-header"><span class="command-name">Feed the fish</span></div>
+        <div class="portlet-header">Feed the fish</div>
         <div class="portlet-content" contenteditable="true">Tend to the golden fish in the aquarium.</div>
       </div>
       <div class="portlet">
-        <div class="portlet-header"><span class="command-name">Fix the human issue</span></div>
+        <div class="portlet-header">Fix the human issue</div>
         <div class="portlet-content" contenteditable="true">...kill all human...</div>
       </div>
       <div class="portlet">
-        <div class="portlet-header"><span class="command-name">Seek & Destroy</span></div>
+        <div class="portlet-header">Seek & Destroy</div>
         <div class="portlet-content" contenteditable="true">Actively seek competing robots and engage them in a death match.</div>
       </div>
       <div class="portlet">
-        <div class="portlet-header"><span class="command-name">Goto...</span></div>
+        <div class="portlet-header">Goto...</div>
         <div class="portlet-content" contenteditable="true">go to... where?</div>
       </div>
       <div class="portlet">
-        <div class="portlet-header"><span class="command-name">Halt</span></div>
+        <div class="portlet-header">Halt</div>
         <div class="portlet-content" contenteditable="true">Halt its systems and turn off.</div>
       </div>
     </div>
 
-    <div class="column commands">
-      <div class="portlet">
-        <div class="portlet-header"><span class="command-name">Boot up</span></div>
-        <div class="portlet-content" contenteditable="true">Turn on, and get ready to perform actions.</div>
-      </div>
+    <div id="commands" class="column">
     </div>
 
     <div class="column pull-right">
@@ -69,26 +67,26 @@
         function update_log(event, ui){
             var log = $( '#log' );
             log.empty();
-            $( '.commands .portlet-content' ).each( function(ix, command) {
+            $( '#commands .portlet-content' ).each( function(ix, command) {
                 log.append( $('<li>' + $(command).text() + '</li>') );
             });
         }
 
-        $( '.commands' ).sortable({
+        $( '#commands' ).sortable({
             update: update_log,
             create: update_log
         });
 
-        $( '.command-options .portlet' ).draggable({
+        $( '#command-options .portlet' ).draggable({
             helper: 'clone',
             handle: '.portlet-header',
-            connectToSortable: '.commands'
+            connectToSortable: '#commands'
         });
 
         $( '.portlet' ).addClass( 'ui-widget ui-widget-content ui-helper-clearfix ui-corner-all' )
             .find( '.portlet-header' )
                 .addClass( 'ui-widget-header ui-corner-all' )
-                .prepend( '<span class="ui-icon ui-icon-minusthick"></span>')
+                .prepend( '<span class="ui-icon ui-icon-plusthick"></span>')
                 .end()
             .find( '.portlet-content' );
 
@@ -96,6 +94,7 @@
             $( this ).toggleClass( 'ui-icon-minusthick' ).toggleClass( 'ui-icon-plusthick' );
             $( this ).parents( '.portlet:first' ).find( '.portlet-content' ).toggle();
         });
+        $( '.portlet-content' ).toggle();
 
         $( '.column.can-move' ).disableSelection();
     });
