@@ -55,7 +55,6 @@
     <div class="column pull-right">
       <h3>The robot will...</h3>
       <ol id="log">
-        <li>kill all humans.</li>
       </ol>
     </div>
 
@@ -63,15 +62,19 @@
     <script src="http://ajax.googleapis.com/ajax/libs/jqueryui/1.9.2/jquery-ui.min.js"></script>
     <script>
     $(function() {
+        function update_log(event, ui){
+            var log = $( '#log' );
+            log.empty();
+            $( '.commands .portlet-content' ).each( function(ix, command) {
+                log.append( $('<li>' + $(command).text() + '</li>') );
+            });
+        }
+
         $( '.commands' ).sortable({
-            update: function( event, ui ) {
-                var log = $( '#log' );
-                log.empty();
-                $( '.commands .portlet-content' ).each( function(ix, command) {
-                    log.append( $('<li>' + $(command).text() + '</li>') );
-                });
-            }
+            update: update_log,
+            create: update_log
         });
+
         $( '.command-options .portlet' ).draggable({
             helper: 'clone',
             connectToSortable: '.commands'
